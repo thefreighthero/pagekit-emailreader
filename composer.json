@@ -1,0 +1,23 @@
+{
+    "name": "bixie/emailreader",
+    "module": "bixie/emailreader",
+    "type": "pagekit-extension",
+    "version": "0.0.6",
+    "title": "Bixie Emailreader",
+    "description": "Email reader for Pagekit",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bixie",
+            "email": "info@bixie.org",
+            "homepage": "http://www.bixie.org"
+        }
+    ],
+    "extra": {
+        "icon": "icon.svg",
+        "scripts": "scripts.php"
+    },
+    "require": {
+        "php-imap/php-imap": "~2.1.2"
+    }
+}
