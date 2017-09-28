@@ -28,8 +28,9 @@ class ProcessCommand extends Command {
      * {@inheritdoc}
      */
     protected function execute (InputInterface $input, OutputInterface $output) {
-        //initialize entity manager
-        $this->container->get('db.em');
+        //initialize extra properties on container, eg entitymanager or routes
+        $this->container->trigger('emailreader.console.init', [$this->container]);
+
         try {
             /** @var EmailreaderModule $emailreader */
             $emailreader = $this->container->module('bixie/emailreader');

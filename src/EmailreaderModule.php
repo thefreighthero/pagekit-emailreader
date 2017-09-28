@@ -27,6 +27,13 @@ class EmailreaderModule extends Module {
         //subscribe listeners before boot, boot is not run in console
      //   $app->subscribe(new FreightheroEmailreaderListener());
 
+        //initialize extra properties on container instance in console
+        $app->on('emailreader.console.init', function ($event, $app) {
+            //initialize entity manager
+            $app['db.em'];
+
+        }, 50);
+
     }
 
     /**

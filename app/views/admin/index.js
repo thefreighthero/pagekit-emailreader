@@ -35,6 +35,7 @@ module.exports = {
         this.mailboxInfo();
         this.getLogFiles();
         this.getLogData();
+
     },
 
     computed: {

@@ -92,8 +92,9 @@ class EmailreaderEvent extends Event implements EventInterface {
      * @return string stripped body
      */
     public function getCleanedBody () {
-        $body = $this->incomingMail->textPlain ?: $this->incomingMail->textHtml;
-        return strip_tags($body, '<p><br>');
+        $body = $this->incomingMail->textPlain ?: preg_replace('/=["\'](ci?d:([\w\.%*@-]+))["\']/i', '', $this->incomingMail->textHtml);
+        $body = preg_replace('/([\r\n]){2,}/', '$1', strip_tags($body, '<p><br>'));
+        return $body;
     }
 
     /**
@@ -102,7 +103,7 @@ class EmailreaderEvent extends Event implements EventInterface {
     public function getNonImageAttachments () {
         return array_filter($this->incomingMail->getAttachments(), function ($attachment) {
             /** @var IncomingMailAttachment $attachment */
-            return !preg_match('/(jpg|png|gif|jpeg)$/i', $attachment->name);
+            return !preg_match('/(jpg|png|gif|jpeg|tif)$/i', $attachment->name);
         });
     }
 
