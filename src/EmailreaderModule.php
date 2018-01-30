@@ -58,7 +58,11 @@ class EmailreaderModule extends Module {
 
                 $incomingMail = $mailbox->getMail($mailId);
                 $event = new EmailreaderEvent('emailreader.mail.incoming', $incomingMail, ['config' => $this->config()]);
-                App::trigger($event);
+                try {
+                    App::trigger($event);
+                } catch (\Exception $e) {
+                    $event->setError($e->getMessage());
+                }
 
                 $log_entries[] = $this->getIncomingMailLogData($incomingMail, $event);
                 if ($event->isProcessed()) {
@@ -133,6 +137,7 @@ class EmailreaderModule extends Module {
             'bcc' => implode(', ', array_keys($incomingMail->bcc)),
             'message_id' => $incomingMail->messageId,
             'processed_by' => implode(', ', $event->getProcessedBy()),
+            'error' => $event->getError(),
         ];
         return $data;
     }

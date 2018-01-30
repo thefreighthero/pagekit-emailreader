@@ -18,6 +18,10 @@ class EmailreaderEvent extends Event implements EventInterface {
      * @var IncomingMail
      */
     protected $incomingMail;
+    /**
+     * @var String
+     */
+    protected $error;
 
     /**
      * Constructor.
@@ -43,6 +47,22 @@ class EmailreaderEvent extends Event implements EventInterface {
      */
     public function getProcessedBy () {
         return $this->processed_by;
+    }
+
+    /**
+     * @return String
+     */
+    public function getError () {
+        return $this->error;
+    }
+
+    /**
+     * @param String $error
+     * @return EmailreaderEvent
+     */
+    public function setError ($error) {
+        $this->error = $error;
+        return $this;
     }
 
     /**

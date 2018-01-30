@@ -5,6 +5,7 @@
     <div class="uk-width-2-3">
         <strong>{{ log.subject }}</strong><br/>
         <em>{{ log.processed_by }}</em>
+        <strong v-if="log.error">{{ log.error }}</strong>
     </div>
 </div>
 <dl class="uk-description-list-horizontal uk-margin-small-top">
