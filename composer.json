@@ -2,7 +2,7 @@
     "name": "bixie/emailreader",
     "module": "bixie/emailreader",
     "type": "pagekit-extension",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "title": "Bixie Emailreader",
     "description": "Email reader for Pagekit",
     "license": "MIT",
