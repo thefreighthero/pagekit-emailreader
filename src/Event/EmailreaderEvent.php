@@ -123,8 +123,8 @@ class EmailreaderEvent extends Event implements EventInterface {
     public function getNonImageAttachments () {
         return array_filter($this->incomingMail->getAttachments(), function ($attachment) {
             /** @var IncomingMailAttachment $attachment */
-            return !(stripos(basename($attachment->name), '.') === false
-                        || preg_match('/(jpg|png|gif|jpeg|tif|tiff|html)$/i', $attachment->name));
+            return preg_match('/\.\w{2,4}$/i', $attachment->name) //has a regular extension (3-4 letters)
+                        && !preg_match('/(jpg|png|gif|jpeg|tif|tiff|html)$/i', $attachment->name); //which is not an image/html
         });
     }
 
