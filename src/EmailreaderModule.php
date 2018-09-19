@@ -5,9 +5,11 @@ namespace Bixie\Emailreader;
 use Bixie\Emailreader\Event\EmailreaderEvent;
 use Pagekit\Application as App;
 use Pagekit\Module\Module;
+use Pagekit\Routing\Event\ConfigureRouteListener;
 use PhpImap\IncomingMail;
 use PhpImap\Mailbox;
 use PhpImap\Exception as ImapException;
+use Pagekit\User\Event\AccessListener;
 
 /**
  * Emailreader Main Module
@@ -31,6 +33,9 @@ class EmailreaderModule extends Module {
         $app->on('emailreader.console.init', function ($event, $app) {
             //initialize entity manager
             $app['db.em'];
+            //add configureroute- and accesslistener for creating routes
+            $app['events']->subscribe(new ConfigureRouteListener);
+            $app['events']->subscribe(new AccessListener);
 
         }, 50);
 
