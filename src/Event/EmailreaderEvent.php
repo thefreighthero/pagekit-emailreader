@@ -114,7 +114,7 @@ class EmailreaderEvent extends Event implements EventInterface {
     public function getCleanedBody () {
         $body = $this->incomingMail->textPlain ?: preg_replace('/=["\'](ci?d:([\w\.%*@-]+))["\']/i', '', $this->incomingMail->textHtml);
         $body = preg_replace('/([\r\n]){2,}/', '$1', strip_tags($body, '<p><br>'));
-        return $body;
+        return utf8_encode($body);
     }
 
     /**
