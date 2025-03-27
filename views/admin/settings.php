@@ -39,6 +39,44 @@ $view->script('emailreader-settings', 'bixie/emailreader:app/bundle/emailreader-
                     </div>
 
 
+                    <div class="uk-margin">
+                        <label class="uk-form-label">{{ 'E-mailafzenders mapping' | trans }}</label><br>
+
+                        <div class="">
+
+                            <div class="uk-form">
+
+                                <ul class="uk-list uk-list-line uk-margin-top">
+                                    <li v-for="sender in config.senders">
+                                        <div class="uk-grid" data-uk-grid-margin>
+                                            <div class="uk-width-medium-1-5">
+                                                <input type="text" v-model="sender.name"  class="uk-width-1-1"
+                                                       :placeholder="$trans('Name')"/>
+                                            </div>
+                                            <div class="uk-width-medium-1-5">
+                                                <input type="email" v-model="sender.email"  class="uk-width-1-1"
+                                                       :placeholder="$trans('Email')"/>
+                                            </div>
+                                            <div class="uk-width-medium-1-5">
+                                                <select id="form-assigned" class="uk-width-1-1" v-model="sender.user_id" number>
+                                                    <option :value="0">{{ 'Not assigned to user' | trans }}</option>
+                                                    <option v-for="moderator in moderators" :value="moderator.id">{{ moderator.name }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="uk-width-medium-1-5">
+                                                <a @click="config.senders.$remove(sender)"><i
+                                                            class="uk-icon-trash-o uk-margin-small-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <button type="button" @click="addSender" class="uk-button">{{ 'Add sender' | trans }}</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="uk-grid uk-grid-width-medium-1-2" data-uk-grid-margin>
                         <div>
 

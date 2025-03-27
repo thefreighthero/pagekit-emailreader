@@ -24,7 +24,9 @@ const vm = {
         loading: false,
         error: false,
         info_result: {},
-        config: {},
+        config: {
+            senders: [],
+        },
         form: {},
     }, window.$data),
 
@@ -50,6 +52,10 @@ const vm = {
                     res => this.error = (res.data.message || res.data)
                 )
                 .then(() => this.loading = false);
+        },
+        addSender() {
+            console.log(this.config)
+            this.config.senders.push({name: '', email: '',});
         },
     },
 

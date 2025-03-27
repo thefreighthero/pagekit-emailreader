@@ -65,18 +65,18 @@ class EmailreaderModule extends Module {
                 $event = new EmailreaderEvent('emailreader.mail.incoming', $incomingMail, ['config' => $this->config()]);
                 try {
                     App::trigger($event);
+                    $log_entries[] = $this->getIncomingMailLogData($incomingMail, $event);
+                    if ($event->isProcessed()) {
+                        $mailbox->moveMail($mailId, $processed_mailbox);
+                        $count_processed++;
+                    } else {
+                        $mailbox->moveMail($mailId, $unprocessed_mailbox);
+                        $count_unprocessed++;
+                    }
                 } catch (\Exception $e) {
                     $event->setError($e->getMessage());
                 }
 
-                $log_entries[] = $this->getIncomingMailLogData($incomingMail, $event);
-                if ($event->isProcessed()) {
-                    $mailbox->moveMail($mailId, $processed_mailbox);
-                    $count_processed++;
-                } else {
-                    $mailbox->moveMail($mailId, $unprocessed_mailbox);
-                    $count_unprocessed++;
-                }
             }
 
             //clear downloaded attachments
@@ -278,6 +278,11 @@ class EmailreaderModule extends Module {
         return array_intersect_key(static::config(), array_flip([]));
     }
 
+    public function getSenders() {
+
+        return $this->config('senders');
+
+    }
 
 }
 

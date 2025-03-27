@@ -2,6 +2,7 @@
 
 namespace Bixie\Emailreader\Controller;
 
+use Bixie\Taskmanager\TaskmanagerModule;
 use Pagekit\Application as App;
 use Pagekit\Kernel\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -66,7 +67,8 @@ class EmailreaderController {
                 'name' => 'bixie/emailreader/admin/settings.php'
             ],
             '$data' => [
-                'config' => App::module('bixie/emailreader')->config()
+                'config' => App::module('bixie/emailreader')->config(),
+                'moderators' => App::module('bixie/taskmanager')->getModerators(),
             ]
         ];
     }

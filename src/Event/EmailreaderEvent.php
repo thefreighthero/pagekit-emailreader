@@ -86,11 +86,21 @@ class EmailreaderEvent extends Event implements EventInterface {
      * @return array
      */
     public function getAllReceivers () {
+
         $receivers = array_merge(
             array_keys($this->incomingMail->to),
             array_keys($this->incomingMail->cc),
             array_keys($this->incomingMail->bcc)
         );
+
+        // Use a regular expression to find the Envelope-to header
+        preg_match('/^Envelope-to:\s*(.*)$/mi', $this->incomingMail->headersRaw, $matches);
+
+        // Check if the Envelope-to header was found
+        if (isset($matches[1])) {
+            $receivers[] = trim(str_replace('\n', '', (str_replace('\r', '', $matches[1]))));
+        }
+
         return array_unique($receivers);
     }
 
@@ -112,7 +122,10 @@ class EmailreaderEvent extends Event implements EventInterface {
      * @return string stripped body
      */
     public function getCleanedBody () {
-        $body = $this->incomingMail->textPlain ?: preg_replace('/=["\'](ci?d:([\w\.%*@-]+))["\']/i', '', $this->incomingMail->textHtml);
+//        $body = $this->incomingMail->textPlain ?:
+//            preg_replace('/=["\'](ci?d:([\w\.%*@-]+))["\']/i', '', $this->incomingMail->textHtml);
+
+        $body = preg_replace('/=["\'](ci?d:([\w\.%*@-]+))["\']/i', '', $this->incomingMail->textHtml);
         $body = preg_replace('/([\r\n]){2,}/', '$1', strip_tags($body, '<p><br>'));
         return utf8_encode($body);
     }
