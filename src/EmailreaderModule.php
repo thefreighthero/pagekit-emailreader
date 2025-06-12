@@ -36,6 +36,11 @@ class EmailreaderModule extends Module {
             //add configureroute- and accesslistener for creating routes
             $app['events']->subscribe(new ConfigureRouteListener);
             $app['events']->subscribe(new AccessListener);
+            
+            $app['taxonomy'] = function ($app) {
+                return new \Bixie\Taxonomy\TaxonomyManager($app);
+            };
+            
 
         }, 50);
 
@@ -49,10 +54,10 @@ class EmailreaderModule extends Module {
 
         $processed_mailbox = $this->config('mailboxes.processed');
         $unprocessed_mailbox = $this->config('mailboxes.unprocessed');
-
+        
+        
         try {
             $mailbox = $this->getMailBox();
-
             $mailIds = $mailbox->searchMailbox('UNDELETED');
             $count_new = count($mailIds);
             $count_processed = 0;
